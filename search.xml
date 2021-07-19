@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>centos8 安装seafile 小记</title>
+    <url>/posts/3578245025/</url>
+    <content><![CDATA[<h1 id="centos8-安装seafile-小记"><a href="#centos8-安装seafile-小记" class="headerlink" title="centos8 安装seafile 小记"></a>centos8 安装seafile 小记</h1><h2 id="1-安装centos"><a href="#1-安装centos" class="headerlink" title="1.安装centos"></a>1.安装centos</h2><p>首先安装centos8，基本的配置操作。</p>
+<p>升级centos内核<br>操作略</p>
+<p>//升级系统<br><code>yum -y update</code><br>/安装 wget<br><code>yum -y install wget</code></p>
+<p>设置为阿里yum源</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -O &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo http:&#x2F;&#x2F;mirrors.aliyun.com&#x2F;repo&#x2F;Centos-8.repo</span><br><span class="line">yum clean all    &#x2F;&#x2F;清除原有yum缓存</span><br><span class="line">yum makecache    &#x2F;&#x2F;生成新的缓存</span><br></pre></td></tr></table></figure>
+<p>安装必要软件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install lrzsz systat tree vim nmap unzip dos2unix nc lsof</span><br><span class="line">dnf group install &quot;Development Tools&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-准备工作"><a href="#2-准备工作" class="headerlink" title="2.准备工作"></a>2.准备工作</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install python3 python3-setuptools python3-pip python3-ldap -y</span><br><span class="line">&#x2F;&#x2F;根据需要更新pip源,略 ~&#x2F;.pip&#x2F;pip.conf</span><br><span class="line"></span><br><span class="line">####升级pip版本（不升级安装依赖包可能会报错，提示文件缺失）</span><br><span class="line">pip3 install --upgrade pip</span><br><span class="line"></span><br><span class="line">###安装python包</span><br><span class="line">pip3 install --timeout&#x3D;3600 Pillow pylibmc captcha jinja2 sqlalchemy psd-tools django-pylibmc django-simple-captcha</span><br></pre></td></tr></table></figure>
+
+<p>下载一键安装seafile脚本</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;haiwen&#x2F;seafile-server-installer-cn@master&#x2F;seafile-server-7.1-centos-amd64-http</span><br></pre></td></tr></table></figure>
+<p>pro下载地址：<a href="https://download.seafile.com/d/6e5297246c/?p=/pro&amp;mode=list">https://download.seafile.com/d/6e5297246c/?p=%2Fpro&amp;mode=list</a><br>放置seafile-pro-server_7.<em>.</em>_x86-64_CentOS.tar.gz到/opt 路径</p>
+<h2 id="3-开始安装"><a href="#3-开始安装" class="headerlink" title="3.开始安装"></a>3.开始安装</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bash seafile-server-7.1-centos-amd64-http 7.1.8</span><br><span class="line">选择pro</span><br><span class="line">等待安装完成</span><br></pre></td></tr></table></figure>
+<h2 id="4-注意事项"><a href="#4-注意事项" class="headerlink" title="4.注意事项"></a>4.注意事项</h2><h3 id="4-1-目前7-1在虚拟机下，搜索服务基本会内存溢出"><a href="#4-1-目前7-1在虚拟机下，搜索服务基本会内存溢出" class="headerlink" title="4.1 目前7.1在虚拟机下，搜索服务基本会内存溢出"></a>4.1 目前7.1在虚拟机下，搜索服务基本会内存溢出</h3><p>安装完后请注意先关闭seafile服务</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl stop seafile</span><br><span class="line">systemctl stop seahub</span><br></pre></td></tr></table></figure>
+<p>及时修改seafevents.conf关闭搜索服务。</p>
+<h3 id="4-2-7-1以上office预览需要安装Libreoffice-新版。"><a href="#4-2-7-1以上office预览需要安装Libreoffice-新版。" class="headerlink" title="4.2 7.1以上office预览需要安装Libreoffice 新版。"></a>4.2 7.1以上office预览需要安装Libreoffice 新版。</h3><p>详见 <a href="https://cloud.seafile.com/published/seafile-manual-cn/deploy_pro/office_documents_preview.md#user-content-7.1%20%E4%BB%A5%E5%8F%8A%E4%B9%8B%E5%90%8E%E7%89%88%E6%9C%AC">https://cloud.seafile.com/published/seafile-manual-cn/deploy_pro/office_documents_preview.md#user-content-7.1%20%E4%BB%A5%E5%8F%8A%E4%B9%8B%E5%90%8E%E7%89%88%E6%9C%AC</a></p>
+<h2 id="5-内网穿透"><a href="#5-内网穿透" class="headerlink" title="5.内网穿透"></a>5.内网穿透</h2><p>服务器建立在局域网内，使用免费的Sakura FRP进行内网穿透。<br>网址：<a href="https://www.natfrp.com/">https://www.natfrp.com</a><br>注册账号根据说明建立服务。</p>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>centos8 seafile</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>安装签到网站</title>
+    <url>/posts/444163487/</url>
+    <content><![CDATA[<p>#安装签到网站<br><a href="https://github.com/AragonSnow/qiandao">https://github.com/AragonSnow/qiandao</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. 下载docker-ce的repo</span><br><span class="line">curl https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo -o &#x2F;etc&#x2F;yum.repos.d&#x2F;docker-ce.repo</span><br><span class="line">2. 安装依赖</span><br><span class="line">yum install https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;fedora&#x2F;30&#x2F;x86_64&#x2F;stable&#x2F;Packages&#x2F;containerd.io-1.2.6-3.3.fc30.x86_64.rpm</span><br><span class="line">3. 安装docker-ce</span><br><span class="line">dnf -y  install docker-ce  docker-ce-cli --nobest</span><br><span class="line">4.启动 docker</span><br><span class="line">systemctl start docker</span><br><span class="line">5.查看 docker 版本信息</span><br><span class="line">docker -v</span><br><span class="line">6.设置开机自动启动</span><br><span class="line">systemctl enable --now docker</span><br><span class="line"></span><br><span class="line">安装docker容器</span><br><span class="line">docker run -d --restart&#x3D;always --name qiandao -p 12345:80 -v $(pwd)&#x2F;qiandao&#x2F;config:&#x2F;usr&#x2F;src&#x2F;app&#x2F;config   asdaragon&#x2F;qiandao</span><br><span class="line">安装完成后注册账号</span><br><span class="line">docker exec -it qiandao &#x2F;bin&#x2F;bash</span><br><span class="line">python .&#x2F;chrole.py 刚才注册的邮箱 admin</span><br><span class="line">设置为管理员</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>签到</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git仓库删除所有提交历史记录</title>
+    <url>/posts/1612447560/</url>
+    <content><![CDATA[<p>把旧项目提交到git上，但是会有一些历史记录，这些历史记录中可能会有项目密码等敏感信息。如何删除这些历史记录，形成一个全新的仓库，并且保持代码不变呢？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout --orphan latest_branch</span><br><span class="line">git add -A</span><br><span class="line">git commit -am <span class="string">&quot;commit message&quot;</span></span><br><span class="line">git branch -D master</span><br><span class="line">git branch -m master</span><br><span class="line">git push -f origin master</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>工具</title>
+    <url>/posts/2478919371/</url>
+    <content><![CDATA[<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><ul>
+<li>vscode</li>
+</ul>
+<h2 id="翻墙"><a href="#翻墙" class="headerlink" title="翻墙"></a>翻墙</h2><ul>
+<li>V2RayN</li>
+<li></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>建站总结</title>
+    <url>/posts/3836708489/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近突然想整理下技术的思路，刚好看到码云也有Gitee Pages 服务,支持Jekyll、Hugo、Hexo。试验了下决定选用hexo搭建博客。</p>
+<h2 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h2><p>以下均为在windows环境下操作，首先先安装以下程序</p>
+<ul>
+<li><a href="https://git-scm.com/">git</a></li>
+<li><a href="https://nodejs.org/zh-cn/">node.js</a></li>
+</ul>
+<h3 id="git设置"><a href="#git设置" class="headerlink" title="git设置"></a>git设置</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">$ git config --global user.name <span class="string">&quot;John Doe&quot;</span></span><br><span class="line">$ git config --global user.email johndoe@example.com</span><br></pre></td></tr></table></figure>
+<p>有必要可设置git使用ssh秘钥，这样可以免登录。</p>
+<h3 id="npm设置"><a href="#npm设置" class="headerlink" title="npm设置"></a>npm设置</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//设置npm库位置</span></span><br><span class="line">npm config <span class="built_in">set</span> prefix <span class="string">&quot;D:/Program Files/nodejs/npm_global&quot;</span></span><br><span class="line">npm config <span class="built_in">set</span> cache <span class="string">&quot;D:/Program Files/nodejs/npm_cache&quot;</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">//在中国，中国，中国，你应该设置淘宝镜像来加速下载。</span></span><br><span class="line">npm config <span class="built_in">set</span> registry <span class="string">&quot;https://registry.npm.taobao.org/&quot;</span></span><br><span class="line">npm config <span class="built_in">set</span> electron_mirror <span class="string">&quot;https://npm.taobao.org/mirrors/electron/&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用npm安装Hexo"><a href="#使用npm安装Hexo" class="headerlink" title="使用npm安装Hexo"></a>使用npm安装Hexo</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">hexo init blog</span><br><span class="line">cd blog</span><br><span class="line">npm install</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<p>然后访问localhost:4000就能看到雏形。</p>
+<h2 id="选择hexo主题"><a href="#选择hexo主题" class="headerlink" title="选择hexo主题"></a>选择hexo主题</h2><ol>
+<li>这边我们使用nexT作为主题。<br>先从<a href="https://github.com/theme-next/hexo-theme-next">https://github.com/theme-next/hexo-theme-next</a> fork到自己仓库。<br>然后在站点根目录终端输入<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;创建子模块</span><br><span class="line">git submodule add &quot;git@github.com:fjcqv&#x2F;hexo-theme-next.git&quot; &quot;themes&#x2F;next&quot;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;或者以下命令，个人觉得上面的好处是修改主题维护方便点。</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure></li>
+<li>打开站点配置文件<code>_config.yml</code>， 找到 theme 字段，并将其值更改为 next。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 扩展</span><br><span class="line">## 插件: https:&#x2F;&#x2F;hexo.io&#x2F;plugins&#x2F;</span><br><span class="line">## 主题: https:&#x2F;&#x2F;hexo.io&#x2F;themes&#x2F;</span><br><span class="line">theme: next</span><br></pre></td></tr></table></figure></li>
+<li>重新生成 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo clean  &#x2F;&#x2F;清除缓存</span><br><span class="line">hexo g  &#x2F;&#x2F;重新生成代码</span><br><span class="line">hexo s  &#x2F;&#x2F;部署到本地</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;然后打开浏览器访问 localhost:4000 查看效果</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="选择部署仓库"><a href="#选择部署仓库" class="headerlink" title="选择部署仓库"></a>选择部署仓库</h3><ol>
+<li>本文选择码云，毕竟在国内，访问速度快点</li>
+<li>建立一个与自己个性地址同名的项目</li>
+</ol>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>打开站点配置文件<code>_config.yml</code>， 找到 deploy 字段修改。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 部署</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@gitee.com:cqv&#x2F;cqv.git</span><br><span class="line">  branch: master</span><br><span class="line">  message: &#39;站点更新:&#123;&#123;now(&quot;YYYY-MM-DD HH:mm:ss&quot;)&#125;&#125;&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="安装插件并部署"><a href="#安装插件并部署" class="headerlink" title="安装插件并部署"></a>安装插件并部署</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">hexo d  </span><br></pre></td></tr></table></figure>
+<h3 id="开启pages服务"><a href="#开启pages服务" class="headerlink" title="开启pages服务"></a>开启pages服务</h3><p>码云需要在项目选择gitee pages服务将其开启，才能访问。</p>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+</search>
